@@ -153,7 +153,8 @@ app.get('/callback', async (req, res) => {
             });
 
             const { access_token, refresh_token } = response.data;
-            res.redirect(`${frontend_uri}/?access_token=${access_token}&refresh_token=${refresh_token}`);
+            // FIXED: Redirect to /spotify so the correct component can handle the token
+            res.redirect(`${frontend_uri}/spotify?access_token=${access_token}&refresh_token=${refresh_token}`);
 
         } catch (error) {
             res.redirect(`${frontend_uri}/#${querystring.stringify({ error: 'invalid_token' })}`);
