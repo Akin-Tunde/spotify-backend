@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    // Module settings for modern Node.js (ESM)
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "target": "ES2022",
+
+    // Output
+    "outDir": "./dist",
+    "sourceMap": true,
+
+    // Interoperability
+    "esModuleInterop": true,
+    "isolatedModules": true,
+
+    // Strictest Type-Checking
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "forceConsistentCasingInFileNames": true,
+
+    // Type Definitions for Node.js environment
+    "types": ["node"],
+    
+    "skipLibCheck": true
+  },
+  // ADD THIS SECTION TO TELL TSC WHERE YOUR CODE IS
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
