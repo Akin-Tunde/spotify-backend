@@ -133,11 +133,17 @@ app.get('/callback', async (req, res) => {
     const state = req.query.state || null;
     const storedState = req.cookies ? req.cookies[stateKey] : null;
 
+    console.log("--- Spotify Callback Initiated ---");
+
     if (state === null || state !== storedState) {
+        console.error("State mismatch error.");
+        console.log("Received State:", state);
+        console.log("Stored State (from cookie):", storedState);
         res.redirect(`${frontend_uri}/#${querystring.stringify({ error: 'state_mismatch' })}`);
     } else {
         res.clearCookie(stateKey);
         try {
+            console.log("Requesting tokens from Spotify with authorization code:", code);
             const response = await axios({
                 method: 'post',
                 url: 'https://accounts.spotify.com/api/token',
@@ -153,10 +159,20 @@ app.get('/callback', async (req, res) => {
             });
 
             const { access_token, refresh_token } = response.data;
-            // FIXED: Redirect to /spotify so the correct component can handle the token
-            res.redirect(`${frontend_uri}/spotify?access_token=${access_token}&refresh_token=${refresh_token}`);
+            
+            // --- NEW LOGS ---
+            console.log("Successfully received tokens from Spotify.");
+            console.log("Access Token:", access_token ? "Exists" : "MISSING!");
+            console.log("Refresh Token:", refresh_token ? "Exists" : "MISSING!");
 
-        } catch (error) {
+            const redirectUrl = `${frontend_uri}/spotify?access_token=${access_token}&refresh_token=${refresh_token}`;
+            console.log("Final Redirect URL being sent to browser:", redirectUrl);
+            // --- END OF NEW LOGS ---
+
+            res.redirect(redirectUrl);
+
+        } catch (error: any) {
+            console.error("Error exchanging code for tokens:", error.response?.data || error.message);
             res.redirect(`${frontend_uri}/#${querystring.stringify({ error: 'invalid_token' })}`);
         }
     }
