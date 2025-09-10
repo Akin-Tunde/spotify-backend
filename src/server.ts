@@ -43,6 +43,38 @@ app.get('/login', (req, res) => {
         }));
 });
 
+// Add this new route to your src/server.ts file
+
+app.get('/refresh_token', async (req, res) => {
+    const { refresh_token } = req.query;
+
+    if (!refresh_token) {
+        return res.status(400).json({ error: 'Refresh token is missing' });
+    }
+
+    try {
+        const response = await axios({
+            method: 'post',
+            url: 'https://accounts.spotify.com/api/token',
+            data: querystring.stringify({
+                grant_type: 'refresh_token',
+                refresh_token: refresh_token as string,
+            }),
+            headers: {
+                'content-type': 'application/x-www-form-urlencoded',
+                'Authorization': `Basic ${Buffer.from(`${client_id}:${client_secret}`).toString('base64')}`,
+            },
+        });
+
+        res.json({
+            access_token: response.data.access_token,
+        });
+
+    } catch (error) {
+        res.status(400).json({ error: 'Invalid refresh token' });
+    }
+});
+
 app.get('/callback', async (req, res) => {
     const code = req.query.code || null;
     const state = req.query.state || null;
