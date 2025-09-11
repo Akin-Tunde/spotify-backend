@@ -9,6 +9,14 @@ import 'dotenv/config';
 // --- FIXED: Import PinataSDK ---
 import PinataSDK from '@pinata/sdk';
 
+console.log("--- ENV CHECK ---");
+console.log(`SPOTIFY_CLIENT_ID: ${process.env.SPOTIFY_CLIENT_ID ? 'Set' : 'MISSING!'}`);
+console.log(`SPOTIFY_CLIENT_SECRET: ${process.env.SPOTIFY_CLIENT_SECRET ? 'Set' : 'MISSING!'}`);
+console.log(`REDIRECT_URI: ${process.env.REDIRECT_URI ? 'Set' : 'MISSING!'}`);
+console.log(`FRONTEND_URI: ${process.env.FRONTEND_URI ? 'Set' : 'MISSING!'}`);
+console.log(`FRONTEND_URI value is: ${process.env.FRONTEND_URI}`); // Let's see the actual value
+console.log("-----------------");
+
 const app = express();
 const port = parseInt(process.env.PORT || "8888");
 const stateKey = 'spotify_auth_state';
