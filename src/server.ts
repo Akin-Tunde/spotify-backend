@@ -10,7 +10,7 @@ import 'dotenv/config';
 import PinataSDK from '@pinata/sdk';
 
 const app = express();
-const port = process.env.PORT || 8888;
+const port = parseInt(process.env.PORT || "8888");
 const stateKey = 'spotify_auth_state';
 
 const client_id = process.env.SPOTIFY_CLIENT_ID;
@@ -178,6 +178,6 @@ app.get('/callback', async (req, res) => {
     }
 });
 
-app.listen(port, () => {
-    console.log(`Backend server listening at http://localhost:${port}`);
+app.listen(port, "0.0.0.0", () => {
+    console.log(`Backend server listening on 0.0.0.0:${port}`);
 });
