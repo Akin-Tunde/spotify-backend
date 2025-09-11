@@ -10,7 +10,7 @@ import 'dotenv/config';
 import PinataSDK from '@pinata/sdk';
 
 const app = express();
-const port = process.env.PORT || 8888;
+const port = parseInt(process.env.PORT || "8888");
 const stateKey = 'spotify_auth_state';
 
 const client_id = process.env.SPOTIFY_CLIENT_ID;
