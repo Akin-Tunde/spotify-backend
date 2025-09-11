@@ -179,5 +179,5 @@ app.get('/callback', async (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Backend server is listening at http://localhost:${port}`);
+    console.log(`Backend server listening at http://localhost:${port}`);
 });
